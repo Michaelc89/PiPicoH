@@ -2,29 +2,24 @@
 from machine import Pin
 import time
 
-#Set up our LED names and GPIO pin numbers
-red = Pin(18, Pin.OUT)
-amber = Pin(19, Pin.OUT)
-green = Pin(20, Pin.OUT)
+# Set up our button names and GPIO pin numbers
+# Also set pins as inputs and use pull downs
+button1 = Pin(13, Pin.IN, Pin.PULL_DOWN)
+button2 = Pin(8, Pin.IN, Pin.PULL_DOWN)
+button3 = Pin(3, Pin.IN, Pin.PULL_DOWN)
 
-counter = 1 # Set the counter to start at 1
-
-while counter < 11: # While count is less than 11...
+while True: # Loop forever
     
-    print(counter) # Print the current counter
-    
-    # LEDs all on
-    red.value(1)
-    amber.value(1)
-    green.value(1)
-    
-    time.sleep(0.5) # Wait half a second
-    
-    # LEDs all off
-    red.value(0)
-    amber.value(0)
-    green.value(0)
-    
-    time.sleep(0.5) # Wait half a second
-    
-    counter += 1 # Add 1 to our counter
+    time.sleep(0.2) # Short Delay
+        
+    if button1.value() == 1: # If button 1 is pressed
+        
+        print("Button 1 pressed")
+        
+    if button2.value() == 1: # If button 2 is pressed
+        
+        print("Button 2 pressed")
+        
+    if button3.value() == 1: # If button 3 is pressed
+        
+        print("Button 3 pressed")
