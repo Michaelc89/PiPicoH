@@ -1,40 +1,41 @@
 # Imports
-from machine import ADC, Pin
+from machine import Pin, PWM
 import time
 
-# Set up the potentiometer on ADC pin 27
-potentiometer = ADC(Pin(27))
+# Set up the Buzzer pin as PWM
+buzzer = PWM(Pin(13)) # Set the buzzer to PWM mode
 
-# Set up the LED pins
-red = Pin(18, Pin.OUT)
-amber = Pin(19, Pin.OUT)
-green = Pin(20, Pin.OUT)
+# Create our library of tone variables for "Jingle Bells"
+C = 523
+D = 587
+E = 659
+G = 784
 
-# Create a variable for our reading
-reading = 0
+# Create volume variable (Duty cycle)
+volume = 32768
 
-while True: # Run forever
+# Create our function with arguments
+def playtone(note,vol,delay1,delay2):
+    buzzer.duty_u16(vol)
+    buzzer.freq(note)
+    time.sleep(delay1)
+    buzzer.duty_u16(0)
+    time.sleep(delay2)
     
-    reading = potentiometer.read_u16() # Read the potentiometer value and set this as our reading variable value
-    
-    print(reading) # Print the reading
-    
-    time.sleep(0.1) # short delay
-    
-    if reading <= 20000: # If reading is less than or equal to 20000
-         
-        red.value(1) # Red ON
-        amber.value(0)
-        green.value(0)
-        
-    elif 20000 < reading < 40000: # If reading is between 20000 and 40000
-    
-        red.value(0) 
-        amber.value(1) # Amber ON
-        green.value(0)
-        
-    elif reading >= 40000: # If reading is greater than or equal to 40000
-            
-        red.value(0) 
-        amber.value(0)
-        green.value(1) # Green ON
+# Play the tune
+playtone(E,volume,0.1,0.2)
+playtone(E,volume,0.1,0.2)
+playtone(E,volume,0.1,0.5) #Longer second delay
+
+playtone(E,volume,0.1,0.2)
+playtone(E,volume,0.1,0.2)
+playtone(E,volume,0.1,0.5) #Longer second delay
+
+playtone(E,volume,0.1,0.2)
+playtone(G,volume,0.1,0.2)
+playtone(C,volume,0.1,0.2)
+playtone(D,volume,0.1,0.2)
+playtone(E,volume,0.1,0.2)
+
+# Duty to 0 to turn the buzzer off
+buzzer.duty_u16(0)
